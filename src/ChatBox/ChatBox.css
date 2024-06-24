@@ -6,6 +6,9 @@ body {
   transform: rotate(-20deg);
   position: relative;
   font-family: "Jost", sans-serif;
+  left: -80px;
+
+  top: 8px;
 }
 
 .chat-box::-webkit-scrollbar {

@@ -62,6 +62,9 @@ export const ChatBox = () => {
               alt="tretti Chat Assistant"
               className="w-10 h-10 lg:w-12 lg:h-12 logo"
             />
+            <div className="chat-text font-jost text-sm font-semibold lg:text-sm">
+              Chat Assistant
+            </div>
           </header>
         </div>
         <div className="flex flex-col space-y-4 overflow-auto h-2/3 p-2 hide-scrollbar">
