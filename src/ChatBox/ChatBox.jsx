@@ -54,15 +54,14 @@ export const ChatBox = () => {
 
   return (
     <div className="bg-white h-screen flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-5xl rounded-lg p-12 shadow-lg h-[90vh] border border-gray-300">
-        <div className="h-16">
-          <header className="text-left">
+      <div className="w-full max-w-full lg:max-w-5xl rounded-lg p-6 lg:p-12 shadow-lg h-[80vh] lg:h-[90vh] border border-gray-300">
+        <div className="h-16 flex items-center justify-between">
+          <header className="flex items-center space-x-4">
             <img
               src={tretti}
               alt="tretti Chat Assistant"
-              className="w-12 h-12 -mt-6 -ml-10 logo"
+              className="w-10 h-10 lg:w-12 lg:h-12 logo"
             />
-            <div className="chat-text font-jost">Chat Assistant</div>
           </header>
         </div>
         <div className="flex flex-col space-y-4 overflow-auto h-2/3 p-2 hide-scrollbar">
@@ -74,7 +73,7 @@ export const ChatBox = () => {
               }`}
             >
               <div
-                className={`rounded-lg p-2 max-w-sm ${
+                className={`rounded-lg p-2 max-w-xs lg:max-w-sm ${
                   message.isUser
                     ? "bg-pink-500 text-white"
                     : "bg-pink-500 text-white"
@@ -101,7 +100,7 @@ export const ChatBox = () => {
         <div className="relative mt-4">
           <input
             type="text"
-            className="w-full p-6 pr-10 border border-gray-300 rounded-full text-sm"
+            className="w-full p-4 lg:p-6 pr-10 border border-gray-300 rounded-full text-sm"
             placeholder="Ask me anything about your brand ..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -115,8 +114,7 @@ export const ChatBox = () => {
             <img src={send} alt="Send" className="w-6 h-6" />
           </button>
         </div>
-
-        <footer className="mt-20 text-center text-xs text-gray-500">
+        <footer className="mt-4 lg:mt-20 text-center text-xs text-gray-500">
           Powered by <span className="font-bold">INDPRO</span>
         </footer>
       </div>

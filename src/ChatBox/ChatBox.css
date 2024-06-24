@@ -1,13 +1,13 @@
 body {
   font-family: "Arial", sans-serif;
 }
+
 .chat-text {
   transform: rotate(-20deg);
-  position: absolute;
-  top: 80px;
-  left: 320px;
+  position: relative;
   font-family: "Jost", sans-serif;
 }
+
 .chat-box::-webkit-scrollbar {
   display: none;
 }
@@ -27,10 +27,6 @@ footer span {
 
 .max-w-2xl {
   width: 80%; /* Increase the width */
-}
-
-.h-4/5 {
-  height: 85%; /* Increase the height */
 }
 
 .loading-dots {
@@ -73,4 +69,65 @@ footer span {
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .chat-text {
+    left: auto;
+    top: auto;
+    font-size: 1.5rem;
+  }
+
+  img.logo {
+    width: 80px;
+  }
+
+  .chat-box {
+    padding: 4px;
+  }
+
+  input::placeholder {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-text {
+    left: auto;
+    top: auto;
+    font-size: 1.25rem;
+  }
+
+  img.logo {
+    width: 60px;
+  }
+
+  .chat-box {
+    padding: 4px;
+  }
+
+  input::placeholder {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-text {
+    left: auto;
+    top: auto;
+    font-size: 1rem;
+  }
+
+  img.logo {
+    width: 40px;
+  }
+
+  .chat-box {
+    padding: 2px;
+  }
+
+  input::placeholder {
+    font-size: 12px;
+  }
 }
