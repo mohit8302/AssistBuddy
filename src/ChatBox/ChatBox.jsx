@@ -6,9 +6,8 @@ import axios from "axios";
 
 export const ChatBox = () => {
   const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef(null);
 
   const formatDate = (date) => {
@@ -31,33 +30,24 @@ export const ChatBox = () => {
       setInputValue("");
       setIsLoading(true);
 
-      const payload = {
-        prompt: inputValue,
-        chat_history: chatHistory,
-      };
-
       try {
         const response = await axios.post(
           "https://aat7sty0nd.execute-api.eu-north-1.amazonaws.com/Prod/llm/prompt",
-          payload,
           {
-            headers: {
-              "Content-Type": "application/json",
-            },
+            prompt: inputValue,
+            chat_history: messages.map((msg) => ({
+              role: msg.isUser ? "user" : "assistant",
+              content: msg.text,
+            })),
           }
         );
 
-        const assistantResponse = response.data.chat_answers_history[0];
-        const updatedChatHistory = response.data.chat_history;
-
         const responseMessage = {
-          text: assistantResponse,
+          text: response.data.chat_answers_history[0],
           timestamp: formatDate(new Date()),
           isUser: false,
         };
-
         setMessages((prevMessages) => [...prevMessages, responseMessage]);
-        setChatHistory(updatedChatHistory);
       } catch (error) {
         console.error("Error sending message:", error);
         // Handle the error as needed
