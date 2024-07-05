@@ -45,10 +45,9 @@ export const ChatBox = () => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              // Add more headers if needed
             },
             body: JSON.stringify(payload),
-            mode: "cors", // Ensure the mode is 'cors'
+            mode: "no-cors", // Test with no-cors mode
           }
         );
 
