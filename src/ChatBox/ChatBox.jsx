@@ -38,38 +38,42 @@ export const ChatBox = () => {
         })),
       };
 
-      // Make the API call to the external server
-      fetch(
-        "https://aat7sty0nd.execute-api.eu-north-1.amazonaws.com/Prod/llm/prompt",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+      try {
+        const response = await fetch(
+          "https://aat7sty0nd.execute-api.eu-north-1.amazonaws.com/Prod/llm/prompt",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Add more headers if needed
+            },
+            body: JSON.stringify(payload),
+            mode: "cors", // Ensure the mode is 'cors'
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.statusText}`);
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          const assistantResponse = data.chat_answers_history[0];
-          const updatedChatHistory = data.chat_history;
 
-          const responseMessage = {
-            text: assistantResponse,
-            timestamp: formatDate(new Date()),
-            isUser: false,
-          };
+        const data = await response.json();
+        const assistantResponse = data.chat_answers_history[0];
+        const updatedChatHistory = data.chat_history;
 
-          setMessages((prevMessages) => [...prevMessages, responseMessage]);
-          setChatHistory(updatedChatHistory);
-        })
-        .catch((error) => {
-          console.error("Error sending message:", error);
-          // Handle the error as needed
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+        const responseMessage = {
+          text: assistantResponse,
+          timestamp: formatDate(new Date()),
+          isUser: false,
+        };
+
+        setMessages((prevMessages) => [...prevMessages, responseMessage]);
+        setChatHistory(updatedChatHistory);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        // Handle the error as needed
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
