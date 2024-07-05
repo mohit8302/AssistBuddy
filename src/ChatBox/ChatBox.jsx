@@ -2,11 +2,13 @@ import send from "../assets/send.svg";
 import tretti from "../assets/tretti.svg";
 import "./ChatBox.css";
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 export const ChatBox = () => {
   const [messages, setMessages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
   const messagesEndRef = useRef(null);
 
   const formatDate = (date) => {
@@ -18,7 +20,7 @@ export const ChatBox = () => {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (inputValue.trim() !== "") {
       const newMessage = {
         text: inputValue,
@@ -29,16 +31,39 @@ export const ChatBox = () => {
       setInputValue("");
       setIsLoading(true);
 
-      // Dummy response
-      setTimeout(() => {
+      const payload = {
+        prompt: inputValue,
+        chat_history: chatHistory,
+      };
+
+      try {
+        const response = await axios.post(
+          "https://aat7sty0nd.execute-api.eu-north-1.amazonaws.com/Prod/llm/prompt",
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const assistantResponse = response.data.chat_answers_history[0];
+        const updatedChatHistory = response.data.chat_history;
+
         const responseMessage = {
-          text: "This is a dummy response from the backend.",
+          text: assistantResponse,
           timestamp: formatDate(new Date()),
           isUser: false,
         };
+
         setMessages((prevMessages) => [...prevMessages, responseMessage]);
+        setChatHistory(updatedChatHistory);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        // Handle the error as needed
+      } finally {
         setIsLoading(false);
-      }, 1000);
+      }
     }
   };
 
@@ -54,7 +79,7 @@ export const ChatBox = () => {
 
   return (
     <div className="bg-white h-screen flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-full lg:max-w-5xl rounded-lg p-6 lg:p-12 shadow-lg h-[80vh] lg:h-[90vh] border border-gray-300">
+      <div className="w-full max-w-full lg:max-w-6xl rounded-lg p-6 lg:p-12 h-[80vh] lg:h-[100vh]">
         <div className="h-16 flex items-center justify-between">
           <header className="flex items-center space-x-4">
             <img
