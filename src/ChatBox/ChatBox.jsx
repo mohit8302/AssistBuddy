@@ -47,12 +47,15 @@ export const ChatBox = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
-            mode: "no-cors", // Test with no-cors mode
+            mode: "cors",
           }
         );
 
         if (!response.ok) {
-          throw new Error(`Server error: ${response.statusText}`);
+          const errorMessage = await response.text();
+          throw new Error(
+            `Server error: ${response.statusText} - ${errorMessage}`
+          );
         }
 
         const data = await response.json();
@@ -68,8 +71,8 @@ export const ChatBox = () => {
         setMessages((prevMessages) => [...prevMessages, responseMessage]);
         setChatHistory(updatedChatHistory);
       } catch (error) {
-        console.error("Error sending message:", error);
-        // Handle the error as needed
+        console.error("Error sending message:", error.message);
+        // Provide feedback to the user about the error
       } finally {
         setIsLoading(false);
       }
