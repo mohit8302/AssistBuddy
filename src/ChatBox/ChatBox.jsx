@@ -1,13 +1,13 @@
+import React, { useState, useEffect, useRef } from "react";
 import send from "../assets/send.svg";
 import tretti from "../assets/tretti.svg";
 import "./ChatBox.css";
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 
 export const ChatBox = () => {
   const [messages, setMessages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
   const messagesEndRef = useRef(null);
 
   const formatDate = (date) => {
@@ -30,30 +30,46 @@ export const ChatBox = () => {
       setInputValue("");
       setIsLoading(true);
 
-      try {
-        const response = await axios.post(
-          "https://aat7sty0nd.execute-api.eu-north-1.amazonaws.com/Prod/llm/prompt",
-          {
-            prompt: inputValue,
-            chat_history: messages.map((msg) => ({
-              role: msg.isUser ? "user" : "assistant",
-              content: msg.text,
-            })),
-          }
-        );
+      const payload = {
+        prompt: inputValue,
+        chat_history: messages.map((msg) => ({
+          role: msg.isUser ? "user" : "assistant",
+          content: msg.text,
+        })),
+      };
 
-        const responseMessage = {
-          text: response.data.chat_answers_history[0],
-          timestamp: formatDate(new Date()),
-          isUser: false,
-        };
-        setMessages((prevMessages) => [...prevMessages, responseMessage]);
-      } catch (error) {
-        console.error("Error sending message:", error);
-        // Handle the error as needed
-      } finally {
-        setIsLoading(false);
-      }
+      // Make the API call to the external server
+      fetch(
+        "https://aat7sty0nd.execute-api.eu-north-1.amazonaws.com/Prod/llm/prompt",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const assistantResponse = data.chat_answers_history[0];
+          const updatedChatHistory = data.chat_history;
+
+          const responseMessage = {
+            text: assistantResponse,
+            timestamp: formatDate(new Date()),
+            isUser: false,
+          };
+
+          setMessages((prevMessages) => [...prevMessages, responseMessage]);
+          setChatHistory(updatedChatHistory);
+        })
+        .catch((error) => {
+          console.error("Error sending message:", error);
+          // Handle the error as needed
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
