@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import send from "../assets/send.svg";
-import tretti from "../assets/tretti.svg";
+import logo from "../assets/indpro.svg";
 import "./ChatBox.css";
 
 export const ChatBox = () => {
@@ -95,7 +95,7 @@ export const ChatBox = () => {
         <div className="h-16 flex items-center justify-between">
           <header className="flex items-center space-x-4">
             <img
-              src={tretti}
+              src={logo}
               alt="tretti Chat Assistant"
               className="w-10 h-10 lg:w-12 lg:h-12 logo"
             />
@@ -115,13 +115,13 @@ export const ChatBox = () => {
               <div
                 className={`rounded-lg p-2 max-w-xs lg:max-w-sm ${
                   message.isUser
-                    ? "bg-pink-500 text-white"
-                    : "bg-pink-500 text-white"
+                    ? "bg-[#547c74] text-white"
+                    : "bg-[#547c74] text-white"
                 }`}
               >
                 <p className="text-sm">{message.text}</p>
               </div>
-              <span className="text-xs mt-1 text-pink-500">
+              <span className="text-xs mt-1 text-[#547c74]-500">
                 {message.timestamp}
               </span>
             </div>

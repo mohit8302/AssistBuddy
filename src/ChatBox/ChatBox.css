@@ -21,7 +21,7 @@ input::placeholder {
 
 img.logo {
   width: 120px; /* Adjust the width as needed */
-  transform: rotate(-10deg);
+  transform: rotate(-20deg);
 }
 
 footer span {
@@ -42,7 +42,143 @@ footer span {
   width: 8px;
   height: 8px;
   margin: 0 4px;
-  background-color: #ff69b4; /* Pink color */
+  background-color: #547c74; /* Pink color */
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .chat-text {
+    left: auto;
+    top: auto;
+    font-size: 1.5rem;
+  }
+
+  img.logo {
+    width: 80px;
+  }
+
+  .chat-box {
+    padding: 4px;
+  }
+
+  input::placeholder {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-text {
+    left: auto;
+    top: auto;
+    font-size: 1.25rem;
+  }
+
+  img.logo {
+    width: 60px;
+  }
+
+  .chat-box {
+    padding: 4px;
+  }
+
+  input::placeholder {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-text {
+    left: auto;
+    top: auto;
+    font-size: 1rem;
+  }
+
+  img.logo {
+    width: 40px;
+  }
+
+  .chat-box {
+    padding: 2px;
+  }
+
+  input::placeholder {
+    font-size: 12px;
+  }
+}
+body {
+  font-family: "Arial", sans-serif;
+}
+
+.chat-text {
+  transform: rotate(-20deg);
+  position: relative;
+  font-family: "Jost", sans-serif;
+  left: -80px;
+
+  top: 8px;
+}
+
+.chat-box::-webkit-scrollbar {
+  display: none;
+}
+
+input::placeholder {
+  color: #999999;
+}
+
+img.logo {
+  width: 120px; /* Adjust the width as needed */
+  transform: rotate(-20deg);
+}
+
+footer span {
+  color: #000000;
+}
+
+.max-w-2xl {
+  width: 80%; /* Increase the width */
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  background-color: #547c74; /* Pink color */
   border-radius: 50%;
   animation: bounce 0.6s infinite alternate;
 }
